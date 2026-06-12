@@ -1,0 +1,39 @@
+CONSERVED CIRCUIT REPORT (BANC / FAFB / MANC)
+====================================================
+
+Consistent mutually-isomorphic set N : 155
+Largest connected conserved circuit  : 4 neurons, 3 directed edges
+Induced edges identical across all   : True
+
+Neurons in the circuit
+----------------------------------------------------
+idx cell_type   neurotransmitterBANC                FAFB                MANC
+0   DNge076     gaba            720575941483679674  720575940628971779  17995
+1   DNge039     acetylcholine   720575941569105658  720575940621530117  16562
+2   DNge068     glutamate       720575941575525992  720575940615578043  16817
+3   DNge019     acetylcholine   720575941680648893  720575940622386824  31123
+
+Directed edges (cell-type -> cell-type, present in all)
+----------------------------------------------------
+  DNge076 (0) -> DNge039 (1)
+  DNge076 (0) -> DNge068 (2)
+  DNge076 (0) -> DNge019 (3)
+
+Degree sequence (in,out) sorted, per dataset (identical => isomorphic)
+----------------------------------------------------
+  BANC: [(0, 3), (1, 0), (1, 0), (1, 0)]
+  FAFB: [(0, 3), (1, 0), (1, 0), (1, 0)]
+  MANC: [(0, 3), (1, 0), (1, 0), (1, 0)]
+  all identical: True
+
+Motif: feedforward (no reciprocal edges); 3 edges over 4 neurons.
+
+Provenance
+----------------------------------------------------
+Edges:  banc_626_edge_list.csv, fafb_783_edge_list.csv,
+        manc_1.2.1_edge_list.csv (directed, unweighted).
+Types/NT/matches: FlyWire Codex CAVE datastack
+        brain_and_nerve_cord_public, materialization v626,
+        table codex_annotations (cell_type,
+        neurotransmitter_verified/_predicted,
+        fafb_783_match_id, manc_121_match_id). See flywire/cave.py.

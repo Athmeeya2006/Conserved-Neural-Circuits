@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+MANIFEST
+
+# Virtual environments
+venv/
+.venv/
+env/
+.env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Logs
+*.log
+
+# Test cache
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
+
+# Fetched / intermediate data artifacts (reproducible via `python -m flywire fetch`)
+codex_annotations_626.parquet
+*_annotations.csv
+codex_correspondence_*.csv
+
+# Large input edge lists (provided separately; too big to commit)
+*_edge_list.csv
+
+# Local-only files (kept out of the repo)
+CLAUDE.md
+METHODS.md
