@@ -12,9 +12,7 @@
 
 ## Overview
 
-Five whole-animal *Drosophila* connectomes (BANC, FAFB, MANC, MAOL, MCNS) have each been reconstructed independently. This project finds the largest directed circuit that is mutually isomorphic, meaning it has identical wiring with direction preserved, across at least three of them. Such a circuit is a neural motif that is conserved between individuals.
-
-The main difficulty here is methodological rather than computational. The obvious objective has a degenerate solution that this project avoids. See [Why this is hard](#why-this-is-hard).
+Five whole-animal *Drosophila* connectomes (BANC, FAFB, MANC, MAOL, MCNS) have each been reconstructed independently. This project finds the largest directed circuit that is mutually isomorphic, meaning it has identical wiring with direction preserved, across at least three of them. Such a circuit is a neural motif that is conserved between individuals. The approach and its handling of the degenerate trivial solution are described in [Approach](#approach).
 
 > **Author:** Athmeeya M Kashyap, IIIT Hyderabad
 
@@ -29,7 +27,6 @@ The main difficulty here is methodological rather than computational. The obviou
 ## Table of contents
 
 - [Result](#result)
-- [Why this is hard](#why-this-is-hard)
 - [Approach](#approach)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -53,18 +50,9 @@ A single GABAergic descending neuron drives three other descending neurons. The 
 
 The search found no conserved circuit larger than 4 neurons across 30 connected components of the cross-dataset agreement graph. The circuit is the submission table, [`network.csv`](#outputs). Its biological analysis is in [`science.md`](science.md).
 
-## Why this is hard
-
-The problem asks to maximise N such that the induced subgraphs are mutually isomorphic. That phrasing has a degenerate trap: any set of neurons with no edges between them induces the empty graph in every dataset, which is trivially isomorphic. Pairing neurons arbitrarily then produces a large but meaningless set of thousands of disconnected nodes. A high N is therefore not evidence of a conserved circuit.
-
-This project handles that trap in two ways.
-
-| Pitfall | What this project does instead |
-| --- | --- |
-| Pairing nodes arbitrarily across datasets | Uses curated homology: FlyWire Codex's own neuron-level cross-dataset match IDs |
-| Maximising node count, which rewards edgeless padding | Searches directly for the largest connected conserved circuit |
-
 ## Approach
+
+**A note on the degenerate solution.** The objective (maximise N subject to mutually isomorphic induced subgraphs) has a trivial solution: any set of neurons with no edges between them induces the empty graph in every dataset, which is trivially isomorphic. Arbitrary pairing then produces a large but meaningless disconnected set. This project avoids that in two ways: neurons are matched by Codex-curated homology rather than arbitrary pairing, and the search targets the largest *connected* conserved circuit rather than raw node count.
 
 ```
  FlyWire Codex, BANC codex_annotations (CAVE, materialization v626)
