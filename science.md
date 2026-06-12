@@ -40,7 +40,7 @@ Directed edges (present in all three datasets): DNge076 to DNge039, DNge076 to D
 
 ## Observations
 
-1. **All four neurons are descending neurons.** The "DN" prefix in the FlyWire cell type name denotes descending neurons per the published FlyWire nomenclature (Schlegel et al. 2024). Descending neurons are the principal output channel of the brain: their cell bodies and dendrites sit in the brain and their axons travel through the neck connective to the ventral nerve cord, where they recruit motor circuits. A motif built entirely from descending neurons is therefore a premotor command pathway rather than a sensory or local circuit.
+1. **All four neurons are descending neurons.** The "DN" prefix in the FlyWire cell type name denotes descending neurons per the published FlyWire nomenclature (Schlegel et al. 2024). Descending neurons are the principal channel carrying signals from the brain to the ventral nerve cord: their cell bodies and dendrites sit in the brain and their axons travel through the neck connective to recruit motor circuits. A motif built entirely from descending neurons is therefore a premotor command pathway rather than a sensory or local circuit.
 
 2. **The motif is a one-to-three divergent hub.** A single presynaptic neuron, DNge076, contacts three other descending neurons and receives no input from within the set. This fan-out is consistent with a coordinating or gating role, where one descending pathway sets the state of several others at once.
 
