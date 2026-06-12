@@ -4,7 +4,8 @@ Human-readable deliverables: circuit_report.txt and METHODS.md.
 
 
 def write_circuit_report(circuit, ds_list, per_ds_edges, type_of, nt_of,
-                         n_star, iso_ok, path='circuit_report.txt'):
+                         nt_source_of, n_star, iso_ok,
+                         path='circuit_report.txt'):
     """Write the per-circuit report (neurons, edges, degree sequences, motif)."""
     edges = sorted(per_ds_edges[ds_list[0]])
 
@@ -30,13 +31,14 @@ def write_circuit_report(circuit, ds_list, per_ds_edges, type_of, nt_of,
         fh.write(f"Induced edges identical across all   : {iso_ok}\n\n")
 
         fh.write("Neurons in the circuit\n" + "-" * 52 + "\n")
-        hdr = f"{'idx':<4}{'cell_type':<12}{'neurotransmitter':<16}"
+        hdr = f"{'idx':<4}{'cell_type':<12}{'neurotransmitter':<18}{'nt_source':<12}"
         hdr += "".join(f"{ds:<20}" for ds in ds_list)
         fh.write(hdr.rstrip() + "\n")
         for i, t in enumerate(circuit):
             key = t[ds_list[0]]
             line = (f"{i:<4}{type_of.get(key, '?'):<12}"
-                    f"{(nt_of.get(key) or '?'):<16}")
+                    f"{(nt_of.get(key) or '?'):<18}"
+                    f"{(nt_source_of.get(key) or '?'):<12}")
             line += "".join(f"{t[ds]:<20}" for ds in ds_list)
             fh.write(line.rstrip() + "\n")
 

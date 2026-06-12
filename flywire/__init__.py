@@ -32,7 +32,7 @@ Module layout:
   anchors      singleton and correspondence-based anchor construction
   isomorphism  mutual-isomorphism pruning
   circuit      connectivity-first conserved-circuit extraction and output
-  report       circuit_report.txt and METHODS.md generation
+  report       circuit_report.txt generation
   pipeline     end-to-end solve
   cli          command-line entry point and self-test
 

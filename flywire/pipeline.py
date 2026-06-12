@@ -70,6 +70,10 @@ def solve(correspondence, ds_list=None, edge_files=None, write=True):
     type_of = dict(zip(correspondence[ds_list[0]], correspondence.cell_type))
     nt_of = dict(zip(correspondence[ds_list[0]],
                      correspondence.neurotransmitter.fillna('')))
+    nt_source_of = dict(zip(correspondence[ds_list[0]],
+                            correspondence.nt_source.fillna('')
+                            if 'nt_source' in correspondence.columns
+                            else [''] * len(correspondence)))
 
     outs = {ds: load_edges(edge_files[ds])[0] for ds in ds_list}
     anchors = anchors_from_correspondence(correspondence, ds_list)
@@ -91,7 +95,8 @@ def solve(correspondence, ds_list=None, edge_files=None, write=True):
     results = {
         'anchors': anchors, 'circuit': circuit, 'star': star,
         'per_ds_edges': per_ds_edges, 'iso_ok': iso_ok, 'n_edges': n_edges,
-        'type_of': type_of, 'nt_of': nt_of, 'outs': outs, 'ds_list': ds_list,
+        'type_of': type_of, 'nt_of': nt_of, 'nt_source_of': nt_source_of,
+        'outs': outs, 'ds_list': ds_list,
     }
     if write:
         write_outputs(results)
@@ -103,7 +108,8 @@ def write_outputs(r):
     write_submission(r['circuit'], ds_list, 'network.csv')
     write_submission(r['star'], ds_list, 'consistent_set_maxN.csv')
     write_circuit_report(r['circuit'], ds_list, r['per_ds_edges'],
-                         r['type_of'], r['nt_of'], len(r['star']), r['iso_ok'])
+                         r['type_of'], r['nt_of'], r['nt_source_of'],
+                         len(r['star']), r['iso_ok'])
     annots = {ds_list[0]: {t[ds_list[0]]: {'type': r['type_of'].get(
         t[ds_list[0]], '?')} for t in r['circuit']}}
     visualise(r['circuit'], ds_list, r['outs'], annots,

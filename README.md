@@ -51,7 +51,7 @@ A 4-neuron divergent motif, conserved with identical connectivity across BANC, F
 
 A single GABAergic descending neuron drives three other descending neurons. The induced subgraph and its degree sequence `[(0,3), (1,0), (1,0), (1,0)]` are identical in all three connectomes: a female brain (FAFB), a female brain plus nerve cord (BANC), and a male nerve cord (MANC).
 
-A connectivity-first search shows this is maximal. Across all 30 connected components of the cross-dataset agreement graph, no conflict-free conserved circuit larger than 4 neurons exists. The circuit is the submission table, [`network.csv`](#outputs). Its biological analysis is in [`science.md`](science.md).
+The search found no conserved circuit larger than 4 neurons across 30 connected components of the cross-dataset agreement graph. The circuit is the submission table, [`network.csv`](#outputs). Its biological analysis is in [`science.md`](science.md).
 
 ## Why this is hard
 

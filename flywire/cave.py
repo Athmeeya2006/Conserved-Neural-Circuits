@@ -66,7 +66,8 @@ def build_correspondence(df, edge_files=None, out_csv=CORRESPONDENCE_CSV):
     """
     Turn the raw annotation table into a strict 1:1 BANC/FAFB/MANC
     correspondence. Returns a DataFrame with columns
-    ``BANC, FAFB, MANC, cell_type, neurotransmitter`` and writes ``out_csv``.
+    ``BANC, FAFB, MANC, cell_type, neurotransmitter, nt_source`` and writes
+    ``out_csv``.  ``nt_source`` is ``'verified'``, ``'predicted'``, or ``''``.
     """
     import pandas as pd
     edge_files = edge_files or MATCH_EDGE_FILES
@@ -95,8 +96,14 @@ def build_correspondence(df, edge_files=None, out_csv=CORRESPONDENCE_CSV):
         if (bid not in nodes['BANC'] or fid not in nodes['FAFB']
                 or mid not in nodes['MANC']):
             continue
-        nt = (nt_ver.get(banc_id) or nt_pred.get(banc_id) or '').strip()
-        rows.append((bid, fid, mid, str(cell_type.get(banc_id, '')).strip(), nt))
+        if nt_ver.get(banc_id):
+            nt, nt_src = nt_ver[banc_id].strip(), 'verified'
+        elif nt_pred.get(banc_id):
+            nt, nt_src = nt_pred[banc_id].strip(), 'predicted'
+        else:
+            nt, nt_src = '', ''
+        rows.append((bid, fid, mid, str(cell_type.get(banc_id, '')).strip(),
+                     nt, nt_src))
     print(f"  raw valid triples: {len(rows)}")
 
     for col in range(3):  # strict 1:1 in BANC, FAFB, MANC
@@ -105,8 +112,20 @@ def build_correspondence(df, edge_files=None, out_csv=CORRESPONDENCE_CSV):
         rows = [r for r in rows if r[col] not in dup]
     print(f"  strict 1:1 bijection: {len(rows)}")
 
+    # MANC body IDs are small integers (4-6 digits). Anomalous 11-digit values
+    # appear in a handful of Codex match entries and are malformed; warn rather
+    # than silently keeping them. They do not affect network.csv (the circuit
+    # neurons all have normal MANC body IDs).
+    bad_manc = [r[2] for r in rows if len(str(r[2])) > 8]
+    if bad_manc:
+        print(f"  WARNING: {len(bad_manc)} entries have anomalous MANC IDs "
+              f"(>{8} digits): {bad_manc[:5]}{'...' if len(bad_manc) > 5 else ''}"
+              f". These are likely malformed Codex match entries and are "
+              f"included in consistent_set_maxN.csv but not in the circuit.")
+
     out = pd.DataFrame(rows, columns=['BANC', 'FAFB', 'MANC',
-                                      'cell_type', 'neurotransmitter'])
+                                      'cell_type', 'neurotransmitter',
+                                      'nt_source'])
     if out_csv:
         out.to_csv(out_csv, index=False)
         print(f"  wrote {out_csv}: {len(out)} matched neuron triples")
